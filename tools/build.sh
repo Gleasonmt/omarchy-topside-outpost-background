@@ -17,7 +17,7 @@ name=$(basename "$src" .frag)
 t=$(sed -n 's|^// still: *\([0-9.]*\).*|\1|p' "$src" | head -1); t=${t:-20}
 { grep '^#version' "$ROOT/src/common.glsl"; echo "#define STILL_TIME $t"; grep -v '^#version' "$ROOT/src/common.glsl"; cat "$src"; } >"$TMP/$name.frag"
 mkdir -p "$ROOT/live" "$ROOT/backgrounds"
-"$QSB" --qt6 -o "$ROOT/live/$name.frag.qsb" "$TMP/$name.frag"
+"$QSB" --glsl "300 es,120,150" --hlsl 50 --msl 12 -o "$ROOT/live/$name.frag.qsb" "$TMP/$name.frag"
 sed -n 's|^// detail: *\([-0-9. ]*[0-9]\).*|\1|p' "$src" \
   | jq -Rn --argjson still "$t" '{still: $still, details: [inputs | split(" ") | map(select(. != "") | tonumber)]}' >"$ROOT/live/$name.json"
 render "$ROOT/tools/render.qml" -- "$ROOT/live/$name.frag.qsb" "$TMP/still.png" 3440 1440 "$t" 1
