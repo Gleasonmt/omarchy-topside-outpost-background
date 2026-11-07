@@ -1,7 +1,7 @@
 #!/bin/bash
 # Rebuild this theme's live wallpaper from its source in src/:
 #   tools/build.sh           shader (live/*.frag.qsb), its patch list (live/*.json),
-#                            the still (backgrounds/*.png) and preview.jpg
+#                            the still (backgrounds/*.png)
 #   tools/build.sh --media   also the animated previews in media/ (a few minutes)
 # Needs qt6-shadertools, qt6-declarative, ImageMagick (and ffmpeg for --media).
 # src/<name>.frag holds the scene; `// still: <seconds>` picks the frame used as
@@ -22,7 +22,6 @@ sed -n 's|^// detail: *\([-0-9. ]*[0-9]\).*|\1|p' "$src" \
   | jq -Rn --argjson still "$t" '{still: $still, details: [inputs | split(" ") | map(select(. != "") | tonumber)]}' >"$ROOT/live/$name.json"
 render "$ROOT/tools/render.qml" -- "$ROOT/live/$name.frag.qsb" "$TMP/still.png" 3440 1440 "$t" 1
 magick "$TMP/still.png" -alpha off -strip "$ROOT/backgrounds/$name.png"
-magick "$ROOT/backgrounds/$name.png" -resize x1012 -gravity center -crop 1800x1012+0+0 +repage -quality 90 "$ROOT/preview.jpg"
 echo "built $name (still at ${t}s)"
 
 [[ ${1:-} == --media ]] || exit 0
