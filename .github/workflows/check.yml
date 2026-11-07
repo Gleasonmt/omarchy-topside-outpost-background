@@ -1,0 +1,22 @@
+name: Check
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Shader and files
+    runs-on: ubuntu-latest
+    # Arch, like Omarchy: the same qsb and glslang the desktop uses
+    container: archlinux:latest
+    steps:
+      - name: Install tools
+        run: pacman -Syu --noconfirm --needed qt6-shadertools glslang jq
+      - uses: actions/checkout@v5
+      - name: Check the live background
+        run: tools/check.sh
