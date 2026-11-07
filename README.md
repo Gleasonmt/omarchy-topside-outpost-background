@@ -1,42 +1,33 @@
 # Topside Outpost
 
-An animated theme for [Omarchy](https://omarchy.org). Dusk over the mesas: a radio mast blinking, a drone on patrol, a convoy crawling through the valley.
+An animated background for [Omarchy](https://omarchy.org). Dusk over the mesas: a radio mast blinking, a drone on patrol, a convoy crawling through the valley.
 
 > **Animated with [omarchy-live-wallpaper](https://github.com/Gleasonmt/omarchy-live-wallpaper).**
-> Install that plugin too (below) to make the wallpaper move and to get the
-> **Topside Outpost Lite** version. Without it the theme still works, with a still wallpaper.
-
+> A background, not a theme: it goes with whatever theme you use.
 ![Topside Outpost, moving](media/topside-outpost.webp)
 
 ## Install
 
-Theme and plugin together:
+You need the [live-wallpaper plugin](https://github.com/Gleasonmt/omarchy-live-wallpaper), 1.2.0 or later.
+Install the plugin and this background together:
 
 ```bash
-omarchy theme install https://github.com/Gleasonmt/omarchy-topside-outpost-theme && omarchy plugin add https://github.com/Gleasonmt/omarchy-live-wallpaper --enable --yes
+omarchy plugin add https://github.com/Gleasonmt/omarchy-live-wallpaper --enable --yes
+git clone --depth 1 https://github.com/Gleasonmt/omarchy-topside-outpost-theme ~/.config/omarchy/live-backgrounds/topside-outpost && omarchy restart shell
 ```
 
-or one at a time:
+If you've installed the plugin's optional `live-wallpaper` command, `live-wallpaper install https://github.com/Gleasonmt/omarchy-topside-outpost-theme` does the second line for you.
 
-```bash
-omarchy theme install https://github.com/Gleasonmt/omarchy-topside-outpost-theme
-omarchy plugin add https://github.com/Gleasonmt/omarchy-live-wallpaper --enable
-```
+Then pick **Topside Outpost** in Omarchy menu → Style → Background. It's offered under every theme,
+including ones you install later. Update with `live-wallpaper update`, or `git pull` in that folder.
 
-Then pick **Topside Outpost** in Omarchy menu → Style → Theme. The first line is the theme
-(colors, wallpaper, icons, keyboard lighting); the second makes the wallpaper move,
-and also adds **Topside Outpost Lite** to the picker: the same picture with only small
-parts moving, which uses the least power. Without the plugin you get the theme
-with a still wallpaper.
+## Details mode
 
-Update with `omarchy theme update` and `omarchy plugin update`.
+In details mode the picture stays still and only small details move. It uses the least power,
+which makes it good on battery or if you want a calmer desktop. Turn it on with `live-wallpaper mode details`
+(`battery-mode details` for battery only) or in Omarchy menu → Style → Live Wallpaper:
 
-## Topside Outpost Lite
-
-The same scene, still, with only its small details alive. It uses the least power,
-which makes it good for battery or a calmer desktop:
-
-![Topside Outpost Lite](media/topside-outpost-lite.webp)
+![Topside Outpost, details mode](media/topside-outpost-lite.webp)
 
 ## How it moves
 
@@ -58,7 +49,7 @@ covers the screen, so these are the costs while it's actually visible:
 | Mode | GPU used | Wallpaper CPU | Compositor CPU |
 |---|---|---|---|
 | Still (plugin off) | ~0% | 2% | 4% |
-| **Topside Outpost Lite** | ~1.5% | 7% | 8% |
+| **Details mode** | ~1.5% | 7% | 8% |
 | **Topside Outpost** | ~10% | 7% | 7% |
 
 *GPU used* is how busy the GPU was, weighted by its clock speed against its maximum
@@ -73,14 +64,14 @@ resolution and 10 fps by default, which is lighter still (plugin 1.1.2 or later:
 The scene is `src/<name>.frag` (with `src/common.glsl`): edit it, then run
 
 ```bash
-tools/build.sh           # rebuilds live/, the still in backgrounds/ and preview.jpg
+tools/build.sh           # rebuilds live/, the still in backgrounds/
 tools/build.sh --media   # also the animated previews in media/ (a few minutes)
 ```
 
 and commit the results. Needs `qt6-shadertools`, `qt6-declarative`, ImageMagick and
 (for `--media`) ffmpeg. To try a change on your own desktop, run
-`omarchy theme update` after pushing, or copy the built files into
-`~/.config/omarchy/themes/<name>/`.
+`live-wallpaper update` after pushing, or copy the built files into
+`~/.config/omarchy/live-backgrounds/topside-outpost/`.
 
 ## License
 
